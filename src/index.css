@@ -590,9 +590,28 @@ figcaption {
   filter: grayscale(0.85) contrast(1.08) sepia(0.12);
 }
 
-.member-stack {
+.member-row {
   display: grid;
-  gap: 2.5rem;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+  gap: 1.25rem 1.75rem;
+  align-items: start;
+}
+
+.member-row .member-photo {
+  aspect-ratio: 4 / 5;
+}
+
+.member-row-text {
+  align-self: center;
+}
+
+.member-row h3 {
+  font-size: 1.7rem;
+  margin: 0;
+}
+
+.member-row .bio {
+  max-width: 48ch;
 }
 
 figcaption {
@@ -785,6 +804,14 @@ figcaption {
     grid-template-columns: 1.15fr 0.85fr;
     gap: 3rem;
     align-items: start;
+  }
+
+  .member-row {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+    gap: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
   }
 
   .form-row {
