@@ -9,23 +9,7 @@ import { Work } from './components/Work'
 export default function App() {
   return (
     <>
-      <svg className="grain-svg" aria-hidden="true">
-        <filter id="paper-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
-        </filter>
-        <filter id="paper-fiber">
-          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="3" seed="7" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-        <filter id="paper-mottle">
-          <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="2" seed="3" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-      </svg>
-      <div className="paper-layer mottle" />
-      <div className="paper-layer fibers" />
-      <div className="paper-layer grain" />
-      <div className="paper-layer edges" />
+      <div className="paper-layer paper-sheet" aria-hidden="true" />
       <a className="skip" href="#content">
         Skip to content
       </a>
