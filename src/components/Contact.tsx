@@ -113,11 +113,7 @@ export function Contact() {
           <aside className="contact-aside">
             <h3>Reach us directly</h3>
             <a href={`mailto:${studio.email}`}>{studio.email}</a>
-            {studio.phones.map((phone) => (
-              <a key={phone.href} href={phone.href}>
-                {phone.display}
-              </a>
-            ))}
+            <a href={studio.phones[0].href}>{studio.phones[0].display}</a>
             <a href={studio.linkedin} target="_blank" rel="noreferrer">
               LinkedIn
             </a>
