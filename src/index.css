@@ -243,7 +243,7 @@ main,
 }
 
 .nav-desktop a:not(.btn) {
-  color: var(--logo-green);
+  color: var(--ink);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.98rem;
@@ -262,7 +262,7 @@ main,
 }
 
 .nav-mobile a:not(.btn) {
-  color: var(--logo-green);
+  color: var(--ink);
   text-decoration: none;
   font-weight: 500;
   font-size: 1.05rem;
