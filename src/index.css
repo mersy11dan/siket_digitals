@@ -4,6 +4,17 @@
    Photos use a 10px radius. Every other corner is square.
    Teal is the link accent. Orange is the button and one headline word. */
 
+@property --paper { syntax: '<color>'; inherits: true; initial-value: #e6e0d1; }
+@property --ink { syntax: '<color>'; inherits: true; initial-value: #1a1917; }
+@property --ink-soft { syntax: '<color>'; inherits: true; initial-value: #3f3c37; }
+@property --rule { syntax: '<color>'; inherits: true; initial-value: rgba(26, 25, 23, 0.16); }
+@property --teal { syntax: '<color>'; inherits: true; initial-value: #0b6e68; }
+@property --orange { syntax: '<color>'; inherits: true; initial-value: #e36a1e; }
+@property --orange-hover { syntax: '<color>'; inherits: true; initial-value: #c85a14; }
+@property --field { syntax: '<color>'; inherits: true; initial-value: #f6f3ec; }
+@property --danger { syntax: '<color>'; inherits: true; initial-value: #8d2f12; }
+@property --gold { syntax: '<color>'; inherits: true; initial-value: #b8892b; }
+
 :root,
 [data-theme='light'] {
   --paper: #e6e0d1;
@@ -16,6 +27,8 @@
   --orange-ink: #1a1917;
   --field: #f6f3ec;
   --danger: #8d2f12;
+  --gold: #b8892b;
+  --logo-green: #0b777a;
   --serif: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', serif;
   --sans: 'Outfit', 'Avenir Next', 'Segoe UI', sans-serif;
   color-scheme: light;
@@ -32,6 +45,7 @@
   --orange-ink: #1a1917;
   --field: #1c1b18;
   --danger: #ffb59a;
+  --gold: #e3b85a;
   color-scheme: dark;
 }
 
@@ -41,9 +55,21 @@
 
 html {
   scroll-behavior: smooth;
+  transition:
+    --paper 700ms ease-in-out,
+    --ink 700ms ease-in-out,
+    --ink-soft 700ms ease-in-out,
+    --rule 700ms ease-in-out,
+    --teal 700ms ease-in-out,
+    --orange 700ms ease-in-out,
+    --orange-hover 700ms ease-in-out,
+    --field 700ms ease-in-out,
+    --danger 700ms ease-in-out,
+    --gold 700ms ease-in-out;
 }
 
 body {
+  position: relative;
   margin: 0;
   min-height: 100dvh;
   font-family: var(--sans);
@@ -59,8 +85,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-[data-theme='dark'] body {
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background-image: url('/paper-dark.jpg');
+  background-repeat: repeat-y;
+  background-position: top center;
+  background-size: max(100%, 760px) auto;
+  opacity: 0;
+  transition: opacity 700ms ease-in-out;
+}
+
+[data-theme='dark'] body::before {
+  opacity: 1;
 }
 
 img {
@@ -88,7 +128,7 @@ h2 {
 }
 
 a {
-  color: var(--teal);
+  color: var(--logo-green);
   text-underline-offset: 0.18em;
 }
 
@@ -203,7 +243,7 @@ main,
 }
 
 .nav-desktop a:not(.btn) {
-  color: var(--ink);
+  color: var(--logo-green);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.98rem;
@@ -222,7 +262,7 @@ main,
 }
 
 .nav-mobile a:not(.btn) {
-  color: var(--ink);
+  color: var(--logo-green);
   text-decoration: none;
   font-weight: 500;
   font-size: 1.05rem;
@@ -236,7 +276,7 @@ main,
   justify-content: center;
   background: transparent;
   color: var(--ink);
-  border: 1px solid var(--rule);
+  border: 0;
   border-radius: 0;
   cursor: pointer;
   transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -276,6 +316,19 @@ main,
   .form .btn {
     justify-self: stretch;
   }
+}
+
+.menu-btn {
+  box-shadow:
+    0 1px 2px rgba(26, 25, 23, 0.08),
+    0 8px 16px -6px rgba(26, 25, 23, 0.28);
+  transition: box-shadow 700ms ease-in-out, transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme='dark'] .menu-btn {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 8px 18px -4px rgba(0, 0, 0, 0.72);
 }
 
 .icon-btn:active,
@@ -619,7 +672,6 @@ h2 {
 }
 
 .offers {
-  --gold: #b8892b;
   --glow-mix: 30%;
   --glow-mix-lift: 46%;
   display: grid;
@@ -627,7 +679,6 @@ h2 {
 }
 
 [data-theme='dark'] .offers {
-  --gold: #e3b85a;
   --glow-mix: 28%;
   --glow-mix-lift: 42%;
 }
@@ -813,8 +864,25 @@ figcaption {
   transform-origin: center;
 }
 
-[data-theme='dark'] .step-sheet {
+.step-sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background-image: url('/paper-dark.jpg');
+  background-size: 760px auto;
+  background-position: inherit;
+  opacity: 0;
+  transition: opacity 700ms ease-in-out;
+  pointer-events: none;
+}
+
+[data-theme='dark'] .step-sheet::before {
+  opacity: 1;
+}
+
+.step-body {
+  position: relative;
+  z-index: 1;
 }
 
 .step h3 {
@@ -1238,7 +1306,7 @@ figcaption {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--ink);
+  color: var(--logo-green);
   text-decoration: none;
   font-weight: 500;
 }
@@ -1331,7 +1399,7 @@ figcaption {
   .nav-desktop a:not(.btn):hover,
   .nav-mobile a:not(.btn):hover,
   .socials a:hover {
-    color: var(--teal);
+    color: var(--logo-green);
   }
 
   .btn:hover {
@@ -1364,12 +1432,6 @@ figcaption {
     animation: none !important;
     transition: none !important;
   }
-}
-
-html[data-theme-switching] *,
-html[data-theme-switching] *::before,
-html[data-theme-switching] *::after {
-  transition: none !important;
 }
 
 @keyframes rise {

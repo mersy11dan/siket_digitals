@@ -11,13 +11,7 @@ export function readTheme(): ThemeName {
 
 export function applyTheme(next: ThemeName) {
   const root = document.documentElement
-  root.dataset.themeSwitching = 'true'
   root.dataset.theme = next
   localStorage.setItem('siket-theme', next)
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColors[next])
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(() => {
-      delete root.dataset.themeSwitching
-    })
-  })
 }
