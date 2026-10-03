@@ -1,6 +1,6 @@
 import mihret from '../../resource/memebers/Mihret_Daniel.jpg'
 import ribka from '../../resource/memebers/Ribka_Muluye.jpg'
-import sofoniyas from '../../resource/memebers/Sofoniyas_Tekalegn.jpg'
+import sofoniyas from '../../resource/memebers/Sofoniyas_Tekalegn.png'
 
 export const studio = {
   name: 'Siket Digitals',

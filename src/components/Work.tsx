@@ -1,7 +1,16 @@
+import { ArrowsClockwise } from '@phosphor-icons/react'
+import { useState } from 'react'
 import { offers } from '../data/content'
 import { Reveal } from './Reveal'
 
 export function Work() {
+  const [open, setOpen] = useState<string | null>(null)
+
+  function toggle(title: string) {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    setOpen((current) => (current === title ? null : title))
+  }
+
   return (
     <section className="section" id="work">
       <div className="wrap">
@@ -19,10 +28,32 @@ export function Work() {
           </div>
         </Reveal>
         <div className="offers">
-          {offers.map((offer) => (
-            <article key={offer.title} className={offer.lead ? 'offer offer-lead' : 'offer'}>
-              <h3>{offer.title}</h3>
-              <p>{offer.body}</p>
+          {offers.map((offer, index) => (
+            <article
+              key={offer.title}
+              className={offer.lead ? 'offer offer-lead' : 'offer'}
+              data-open={open === offer.title}
+              tabIndex={0}
+              onClick={() => toggle(offer.title)}
+            >
+              <div className="offer-inner">
+                <div className="offer-face offer-front">
+                  <span className="offer-num">0{index + 1}</span>
+                  <h3>{offer.title}</h3>
+                  <span className="offer-hint" aria-hidden="true">
+                    <ArrowsClockwise size={14} weight="bold" />
+                    <span className="hint-hover">Hover to read</span>
+                    <span className="hint-touch">Tap to read</span>
+                  </span>
+                </div>
+                <div className="offer-face offer-back">
+                  <span className="offer-num">0{index + 1}</span>
+                  <p>{offer.body}</p>
+                  <span className="offer-back-title" aria-hidden="true">
+                    {offer.title}
+                  </span>
+                </div>
+              </div>
             </article>
           ))}
         </div>

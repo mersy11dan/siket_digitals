@@ -9,7 +9,6 @@ import { Work } from './components/Work'
 export default function App() {
   return (
     <>
-      <div className="paper-layer paper-sheet" aria-hidden="true" />
       <a className="skip" href="#content">
         Skip to content
       </a>
