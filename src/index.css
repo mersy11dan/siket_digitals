@@ -619,13 +619,20 @@ h2 {
 }
 
 .offers {
+  --card-shadow: 0 1px 2px rgba(26, 25, 23, 0.08), 0 12px 30px -12px rgba(26, 25, 23, 0.32);
+  --card-shadow-lift: 0 2px 4px rgba(26, 25, 23, 0.1), 0 22px 44px -16px rgba(26, 25, 23, 0.45);
   display: grid;
-  gap: 1rem;
+  gap: 1.1rem;
+}
+
+[data-theme='dark'] .offers {
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 30px -12px rgba(0, 0, 0, 0.8);
+  --card-shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 22px 44px -16px rgba(0, 0, 0, 0.95);
 }
 
 .offer {
   position: relative;
-  min-height: 13rem;
+  min-height: 9.5rem;
   perspective: 1400px;
   cursor: pointer;
   outline: none;
@@ -644,37 +651,23 @@ h2 {
   inset: 0;
   display: flex;
   flex-direction: column;
-  padding: 1.35rem 1.35rem 1.25rem;
-  border: 1px solid var(--ink);
+  padding: 1.2rem 1.3rem 1.1rem;
+  border-radius: 4px;
+  box-shadow: var(--card-shadow);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
 .offer-front {
-  background: color-mix(in srgb, var(--field) 72%, transparent);
-  border-top-width: 4px;
+  background: color-mix(in srgb, var(--field) 80%, transparent);
 }
-
-.offer:nth-child(1) .offer-front { border-top-color: var(--teal); }
-.offer:nth-child(2) .offer-front { border-top-color: var(--ink); }
-.offer:nth-child(3) .offer-front { border-top-color: var(--orange); }
 
 .offer-back {
   justify-content: center;
   background: var(--field);
   color: var(--ink);
   transform: rotateY(180deg);
-  box-shadow:
-    0 1px 0 var(--ink),
-    0 2px 3px rgba(26, 25, 23, 0.18),
-    0 18px 34px -14px rgba(26, 25, 23, 0.5);
-}
-
-[data-theme='dark'] .offer-back {
-  box-shadow:
-    0 1px 0 var(--ink),
-    0 2px 3px rgba(0, 0, 0, 0.5),
-    0 18px 34px -12px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--card-shadow-lift);
 }
 
 .offer h3,
@@ -687,7 +680,7 @@ figcaption {
 }
 
 .offer h3 {
-  font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+  font-size: clamp(1.6rem, 2.4vw, 1.95rem);
   line-height: 1.05;
   margin-top: auto;
 }
@@ -781,9 +774,10 @@ figcaption {
 }
 
 .step {
+  --rest-shadow: drop-shadow(0 1px 1px rgba(var(--shade), 0.1)) drop-shadow(0 10px 14px rgba(var(--shade), 0.2));
   position: relative;
   min-height: 11rem;
-  filter: drop-shadow(0 3px 3px rgba(var(--shade), 0.18));
+  filter: var(--rest-shadow);
 }
 
 .step-sheet {
@@ -794,7 +788,7 @@ figcaption {
   background-image: url('/paper-light.jpg');
   background-size: 760px auto;
   background-position: calc(var(--i) * -160px) calc(var(--i) * -120px);
-  border: 1px solid var(--ink);
+  border-radius: 3px;
   transform-origin: center;
 }
 
@@ -867,15 +861,114 @@ figcaption {
 }
 
 @keyframes paper-shadow {
-  0% { filter: drop-shadow(0 26px 18px rgba(var(--shade), 0.42)); }
-  58% { filter: drop-shadow(0 12px 12px rgba(var(--shade), 0.3)); }
-  100% { filter: drop-shadow(0 3px 3px rgba(var(--shade), 0.18)); }
+  0% { filter: drop-shadow(0 1px 1px rgba(var(--shade), 0)) drop-shadow(0 26px 18px rgba(var(--shade), 0.42)); }
+  58% { filter: drop-shadow(0 1px 1px rgba(var(--shade), 0.06)) drop-shadow(0 16px 14px rgba(var(--shade), 0.3)); }
+  100% { filter: var(--rest-shadow); }
 }
 
 @keyframes ink-in {
   0% { opacity: 0; transform: translateY(6px); }
   100% { opacity: 1; transform: none; }
 }
+
+.steps[data-fold='open'] .step[data-play] {
+  animation: none;
+}
+
+.steps[data-fold='open'] .step[data-play='a'] .step-sheet {
+  animation: recrumple-a 1400ms cubic-bezier(0.3, 0.7, 0.2, 1) both;
+}
+
+.steps[data-fold='open'] .step[data-play='b'] .step-sheet {
+  animation: recrumple-b 1400ms cubic-bezier(0.3, 0.7, 0.2, 1) both;
+}
+
+.steps[data-fold='open'] .step[data-play='a'] .step-body {
+  animation: reink-a 1400ms ease both;
+}
+
+.steps[data-fold='open'] .step[data-play='b'] .step-body {
+  animation: reink-b 1400ms ease both;
+}
+
+@keyframes recrumple-a {
+  0% {
+    clip-path: var(--flat);
+    transform: none;
+    filter: contrast(1) brightness(1);
+  }
+  30% {
+    clip-path: var(--ball);
+    transform: scale(0.36) rotate(-18deg);
+    filter: contrast(1.6) brightness(0.88);
+  }
+  40% {
+    clip-path: var(--ball);
+    transform: scale(0.34) rotate(-14deg);
+  }
+  70% {
+    clip-path: var(--half);
+    transform: scale(0.86) rotate(4deg);
+    filter: contrast(1.25) brightness(0.95);
+  }
+  88% {
+    clip-path: var(--flat);
+    transform: scale(1.02) rotate(-1deg);
+    filter: contrast(1.05) brightness(1);
+  }
+  100% {
+    clip-path: var(--flat);
+    transform: none;
+    filter: contrast(1) brightness(1);
+  }
+}
+
+@keyframes reink-a {
+  0% { opacity: 1; transform: none; }
+  14% { opacity: 0; }
+  80% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: none; }
+}
+
+@keyframes recrumple-b {
+  0% {
+    clip-path: var(--flat);
+    transform: none;
+    filter: contrast(1) brightness(1);
+  }
+  30% {
+    clip-path: var(--ball);
+    transform: scale(0.36) rotate(-18deg);
+    filter: contrast(1.6) brightness(0.88);
+  }
+  40% {
+    clip-path: var(--ball);
+    transform: scale(0.34) rotate(-14deg);
+  }
+  70% {
+    clip-path: var(--half);
+    transform: scale(0.86) rotate(4deg);
+    filter: contrast(1.25) brightness(0.95);
+  }
+  88% {
+    clip-path: var(--flat);
+    transform: scale(1.02) rotate(-1deg);
+    filter: contrast(1.05) brightness(1);
+  }
+  100% {
+    clip-path: var(--flat);
+    transform: none;
+    filter: contrast(1) brightness(1);
+  }
+}
+
+@keyframes reink-b {
+  0% { opacity: 1; transform: none; }
+  14% { opacity: 0; }
+  80% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: none; }
+}
+
 
 .members-head {
   margin-bottom: 2rem;
@@ -1144,32 +1237,20 @@ figcaption {
   }
 
   .offers {
-    grid-template-columns: 1.35fr 1fr;
+    grid-template-columns: 1.4fr 1fr 1fr;
     gap: 1.25rem;
   }
 
   .offer {
-    min-height: 14rem;
-  }
-
-  .offer-lead {
-    grid-row: span 2;
-  }
-
-  .offer-lead .offer-face {
-    padding: 2rem 1.9rem 1.75rem;
+    min-height: 11.5rem;
   }
 
   .offer-lead .offer-front {
-    background: color-mix(in srgb, var(--teal) 10%, color-mix(in srgb, var(--field) 72%, transparent));
+    background: color-mix(in srgb, var(--teal) 9%, color-mix(in srgb, var(--field) 80%, transparent));
   }
 
   .offer-lead h3 {
-    font-size: clamp(2.4rem, 4vw, 3.2rem);
-  }
-
-  .offer-lead .offer-back p {
-    font-size: 1.3rem;
+    font-size: clamp(2rem, 2.8vw, 2.5rem);
   }
 
   .steps {
