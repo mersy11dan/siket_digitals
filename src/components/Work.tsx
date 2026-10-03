@@ -28,7 +28,7 @@ export function Work() {
           </div>
         </Reveal>
         <div className="offers">
-          {offers.map((offer, index) => (
+          {offers.map((offer) => (
             <article
               key={offer.title}
               className={offer.lead ? 'offer offer-lead' : 'offer'}
@@ -38,7 +38,6 @@ export function Work() {
             >
               <div className="offer-inner">
                 <div className="offer-face offer-front">
-                  <span className="offer-num">0{index + 1}</span>
                   <h3>{offer.title}</h3>
                   <span className="offer-hint" aria-hidden="true">
                     <ArrowsClockwise size={14} weight="bold" />
@@ -47,7 +46,6 @@ export function Work() {
                   </span>
                 </div>
                 <div className="offer-face offer-back">
-                  <span className="offer-num">0{index + 1}</span>
                   <p>{offer.body}</p>
                   <span className="offer-back-title" aria-hidden="true">
                     {offer.title}

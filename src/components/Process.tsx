@@ -32,9 +32,12 @@ export function Process() {
         <div className="steps" ref={stepsRef} data-fold={fold}>
           {steps.map((step, index) => (
             <article key={step.title} className="step" style={{ '--i': index } as CSSProperties}>
-              <span className="step-num">0{index + 1}</span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
+              <div className="step-sheet">
+                <div className="step-body">
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
+                </div>
+              </div>
             </article>
           ))}
         </div>

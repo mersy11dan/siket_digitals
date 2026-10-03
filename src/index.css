@@ -660,16 +660,21 @@ h2 {
 .offer:nth-child(3) .offer-front { border-top-color: var(--orange); }
 
 .offer-back {
-  background: var(--ink);
-  color: var(--paper);
+  justify-content: center;
+  background: var(--field);
+  color: var(--ink);
   transform: rotateY(180deg);
+  box-shadow:
+    0 1px 0 var(--ink),
+    0 2px 3px rgba(26, 25, 23, 0.18),
+    0 18px 34px -14px rgba(26, 25, 23, 0.5);
 }
 
-.offer-num {
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--orange);
+[data-theme='dark'] .offer-back {
+  box-shadow:
+    0 1px 0 var(--ink),
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 18px 34px -12px rgba(0, 0, 0, 0.8);
 }
 
 .offer h3,
@@ -707,22 +712,21 @@ figcaption {
 }
 
 .offer-back p {
-  margin-top: auto;
   font-size: 1.05rem;
   line-height: 1.55;
-  color: inherit;
+  color: var(--ink);
   max-width: 40ch;
 }
 
 .offer-back-title {
-  margin-top: 0.9rem;
+  margin-top: 1rem;
   padding-top: 0.6rem;
-  border-top: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+  border-top: 1px solid var(--rule);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--paper) 70%, transparent);
+  color: var(--teal);
 }
 
 .offer[data-open='true'] .offer-inner,
@@ -762,43 +766,40 @@ figcaption {
 }
 
 .steps {
+  --ball: polygon(28.8% 28.8%, 42.3% 34.9%, 45.8% 23.3%, 52.3% 35.2%, 64.5% 21.5%, 62.7% 37.3%, 74.9% 37.3%, 65.8% 47.5%, 79.6% 54.7%, 66.9% 58.6%, 68.4% 68.4%, 56.8% 63.4%, 54.8% 80.6%, 47.3% 66.8%, 36.8% 75.8%, 38.7% 61.3%, 23.3% 63.6%, 32.2% 52.8%, 23.3% 45.8%, 35.7% 42.7%);
+  --half: polygon(17.5% 17.5%, 28.9% 8.9%, 42.3% 13.3%, 56.9% 7.1%, 73.8% 13.6%, 89.1% 10.9%, 83.0% 26.9%, 91.3% 43.0%, 87.9% 57.9%, 92.8% 71.5%, 82.4% 82.4%, 70.7% 89.3%, 57.9% 86.2%, 42.9% 91.7%, 26.7% 86.3%, 9.5% 90.5%, 14.3% 73.4%, 8.9% 57.1%, 15.3% 42.3%, 9.3% 29.1%);
+  --flat: polygon(0.0% 0.0%, 20.0% 0.0%, 40.0% 0.0%, 60.0% 0.0%, 80.0% 0.0%, 100.0% 0.0%, 100.0% 20.0%, 100.0% 40.0%, 100.0% 60.0%, 100.0% 80.0%, 100.0% 100.0%, 80.0% 100.0%, 60.0% 100.0%, 40.0% 100.0%, 20.0% 100.0%, 0.0% 100.0%, 0.0% 80.0%, 0.0% 60.0%, 0.0% 40.0%, 0.0% 20.0%);
+  --shade: 26, 25, 23;
   position: relative;
   display: grid;
+  gap: 1rem;
   margin-top: 2.25rem;
-  perspective: 1600px;
-  border-top: 3px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
+}
+
+[data-theme='dark'] .steps {
+  --shade: 0, 0, 0;
 }
 
 .step {
   position: relative;
-  padding: 1.5rem 1.25rem 1.6rem;
-  background: color-mix(in srgb, var(--field) 55%, transparent);
-  transform-origin: top center;
-  backface-visibility: hidden;
+  min-height: 11rem;
+  filter: drop-shadow(0 3px 3px rgba(var(--shade), 0.18));
 }
 
-.step + .step {
-  border-top: 1px solid var(--rule);
+.step-sheet {
+  position: relative;
+  height: 100%;
+  padding: 1.5rem 1.35rem 1.6rem;
+  background-color: var(--paper);
+  background-image: url('/paper-light.jpg');
+  background-size: 760px auto;
+  background-position: calc(var(--i) * -160px) calc(var(--i) * -120px);
+  border: 1px solid var(--ink);
+  transform-origin: center;
 }
 
-.step::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(26, 25, 23, 0.32), transparent 75%);
-  opacity: 0;
-}
-
-.step-num {
-  display: block;
-  font-family: var(--serif);
-  font-size: 2.6rem;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--orange);
-  margin-bottom: 0.9rem;
+[data-theme='dark'] .step-sheet {
+  background-image: url('/paper-dark.jpg');
 }
 
 .step h3 {
@@ -806,76 +807,74 @@ figcaption {
   margin-bottom: 0.4rem;
 }
 
-.steps[data-fold='folded'] .step {
+.steps[data-fold='folded'] .step-sheet {
   opacity: 0;
-  transform: rotateX(-92deg);
+  clip-path: var(--ball);
+  transform: scale(0.3) rotate(-28deg);
+}
+
+.steps[data-fold='folded'] .step-body {
+  opacity: 0;
 }
 
 .steps[data-fold='open'] .step {
-  animation: unfold-down 1050ms cubic-bezier(0.2, 0.8, 0.25, 1) both;
-  animation-delay: calc(var(--i) * 260ms + 120ms);
+  animation: paper-shadow 1500ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 520ms);
 }
 
-.steps[data-fold='open'] .step::after {
-  animation: crease 1050ms ease-out both;
-  animation-delay: calc(var(--i) * 260ms + 120ms);
+.steps[data-fold='open'] .step-sheet {
+  animation: uncrumple 1500ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 520ms);
 }
 
-.steps[data-fold='folded'] .step-num {
-  opacity: 0;
+.steps[data-fold='open'] .step-body {
+  animation: ink-in 520ms ease-out both;
+  animation-delay: calc(var(--i) * 520ms + 1000ms);
 }
 
-.steps[data-fold='open'] .step-num {
-  animation: stamp 520ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
-  animation-delay: calc(var(--i) * 260ms + 720ms);
+@keyframes uncrumple {
+  0% {
+    opacity: 0;
+    clip-path: var(--ball);
+    transform: translateY(-46px) scale(0.3) rotate(-28deg);
+    filter: contrast(1.6) brightness(0.88);
+  }
+  12% {
+    opacity: 1;
+    clip-path: var(--ball);
+    transform: translateY(0) scale(0.34) rotate(-20deg);
+    filter: contrast(1.6) brightness(0.88);
+  }
+  22% {
+    transform: translateY(-6px) scale(0.36) rotate(-16deg);
+  }
+  58% {
+    clip-path: var(--half);
+    transform: translateY(0) scale(0.84) rotate(5deg);
+    filter: contrast(1.28) brightness(0.95);
+  }
+  82% {
+    clip-path: var(--flat);
+    transform: scale(1.02) rotate(-1deg);
+    filter: contrast(1.06) brightness(1);
+  }
+  100% {
+    opacity: 1;
+    clip-path: var(--flat);
+    transform: none;
+    filter: contrast(1) brightness(1);
+  }
 }
 
-.steps[data-fold='folded']::before,
-.steps[data-fold='open']::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -3px;
-  height: 3px;
-  background: var(--orange);
-  transform-origin: left center;
-  transform: scaleX(0);
+@keyframes paper-shadow {
+  0% { filter: drop-shadow(0 26px 18px rgba(var(--shade), 0.42)); }
+  58% { filter: drop-shadow(0 12px 12px rgba(var(--shade), 0.3)); }
+  100% { filter: drop-shadow(0 3px 3px rgba(var(--shade), 0.18)); }
 }
 
-.steps[data-fold='open']::before {
-  animation: rule-run 1600ms cubic-bezier(0.65, 0, 0.35, 1) 100ms both;
-}
-
-@keyframes unfold-down {
-  0% { opacity: 0; transform: rotateX(-92deg); }
-  18% { opacity: 1; }
-  72% { transform: rotateX(6deg); }
-  100% { opacity: 1; transform: rotateX(0deg); }
-}
-
-@keyframes unfold-right {
-  0% { opacity: 0; transform: rotateY(-96deg); }
-  18% { opacity: 1; }
-  72% { transform: rotateY(5deg); }
-  100% { opacity: 1; transform: rotateY(0deg); }
-}
-
-@keyframes crease {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-@keyframes stamp {
-  0% { opacity: 0; transform: scale(1.6) rotate(-6deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
-}
-
-@keyframes rule-run {
-  0% { transform: scaleX(0); transform-origin: left center; }
-  55% { transform: scaleX(1); transform-origin: left center; }
-  56% { transform: scaleX(1); transform-origin: right center; }
-  100% { transform: scaleX(0); transform-origin: right center; }
+@keyframes ink-in {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: none; }
 }
 
 .members-head {
@@ -1175,28 +1174,11 @@ figcaption {
 
   .steps {
     grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
   }
 
-  .step {
+  .step-sheet {
     padding: 1.75rem 1.4rem 1.9rem;
-    transform-origin: left center;
-  }
-
-  .step + .step {
-    border-top: 0;
-    border-left: 1px solid var(--rule);
-  }
-
-  .step::after {
-    background: linear-gradient(90deg, rgba(26, 25, 23, 0.34), transparent 75%);
-  }
-
-  .steps[data-fold='folded'] .step {
-    transform: rotateY(-96deg);
-  }
-
-  .steps[data-fold='open'] .step {
-    animation-name: unfold-right;
   }
 
   .members-grid {
