@@ -619,18 +619,33 @@ h2 {
 }
 
 .offers {
-  --card-shadow: 0 1px 2px rgba(26, 25, 23, 0.08), 0 12px 30px -12px rgba(26, 25, 23, 0.32);
-  --card-shadow-lift: 0 2px 4px rgba(26, 25, 23, 0.1), 0 22px 44px -16px rgba(26, 25, 23, 0.45);
+  --gold: #b8892b;
+  --glow-mix: 30%;
+  --glow-mix-lift: 46%;
   display: grid;
   gap: 1.1rem;
 }
 
 [data-theme='dark'] .offers {
-  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 30px -12px rgba(0, 0, 0, 0.8);
-  --card-shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 22px 44px -16px rgba(0, 0, 0, 0.95);
+  --gold: #e3b85a;
+  --glow-mix: 28%;
+  --glow-mix-lift: 42%;
 }
 
+.offer:nth-child(1) { --glow: var(--teal); }
+.offer:nth-child(2) { --glow: var(--orange); }
+.offer:nth-child(3) { --glow: var(--gold); }
+
 .offer {
+  --glow: var(--teal);
+  --card-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow) 20%, transparent),
+    0 0 18px color-mix(in srgb, var(--glow) var(--glow-mix), transparent),
+    0 10px 34px -4px color-mix(in srgb, var(--glow) var(--glow-mix), transparent);
+  --card-shadow-lift:
+    0 0 0 1px color-mix(in srgb, var(--glow) 30%, transparent),
+    0 0 26px color-mix(in srgb, var(--glow) var(--glow-mix-lift), transparent),
+    0 16px 48px -6px color-mix(in srgb, var(--glow) var(--glow-mix-lift), transparent);
   position: relative;
   min-height: 9.5rem;
   perspective: 1400px;
@@ -774,10 +789,16 @@ figcaption {
 }
 
 .step {
-  --rest-shadow: drop-shadow(0 1px 1px rgba(var(--shade), 0.1)) drop-shadow(0 10px 14px rgba(var(--shade), 0.2));
+  --rest-shadow: drop-shadow(0 2px 4px rgba(var(--shade), 0.06)) drop-shadow(0 14px 26px rgba(var(--shade), 0.14));
   position: relative;
   min-height: 11rem;
+  overflow: hidden;
+  border-radius: 12px;
   filter: var(--rest-shadow);
+}
+
+[data-theme='dark'] .step {
+  --rest-shadow: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35)) drop-shadow(0 16px 30px rgba(0, 0, 0, 0.48));
 }
 
 .step-sheet {
@@ -788,7 +809,7 @@ figcaption {
   background-image: url('/paper-light.jpg');
   background-size: 760px auto;
   background-position: calc(var(--i) * -160px) calc(var(--i) * -120px);
-  border-radius: 3px;
+  border-radius: 12px;
   transform-origin: center;
 }
 
