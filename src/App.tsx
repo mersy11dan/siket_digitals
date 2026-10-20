@@ -4,6 +4,7 @@ import { Hero } from './components/Hero'
 import { Masthead } from './components/Masthead'
 import { Members } from './components/Members'
 import { Process } from './components/Process'
+import { WhatsAppWidget } from './components/WhatsAppWidget'
 import { Work } from './components/Work'
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <WhatsAppWidget />
     </>
   )
 }

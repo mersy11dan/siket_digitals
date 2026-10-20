@@ -1457,3 +1457,83 @@ figcaption {
 .hero-copy > *:nth-child(3) {
   animation-delay: 100ms;
 }
+/* WhatsApp widget — peach paper match from main (paper-light / #e6e0d1) */
+.floating-whatsapp {
+  z-index: 9999 !important;
+}
+
+.floating-whatsapp-chatbox {
+  font-family: var(--sans) !important;
+  background-color: #e6e0d1 !important;
+  color: #1a1917 !important;
+}
+
+.floating-whatsapp-chatbox header {
+  background-color: #e6e0d1 !important;
+  color: #1a1917 !important;
+  border-bottom: 1px solid rgba(26, 25, 23, 0.16) !important;
+}
+
+.floating-whatsapp-chatbox header [class*='status'],
+.floating-whatsapp-chatbox header [class*='statusTitle'],
+.floating-whatsapp-chatbox header [class*='statusSubtitle'] {
+  color: #1a1917 !important;
+}
+
+.floating-whatsapp-chatbox header [class*='statusSubtitle'] {
+  color: #3f3c37 !important;
+}
+
+.floating-whatsapp-chatbox header [class*='close'] svg {
+  fill: #1a1917 !important;
+}
+
+.floating-whatsapp-chatbox [class*='chatBody'] {
+  background-color: #e6e0d1 !important;
+  background-image: url('/paper-light.jpg') !important;
+  background-repeat: repeat !important;
+  background-size: 760px auto !important;
+  opacity: 1 !important;
+}
+
+.floating-whatsapp-chatbox [class*='message'] {
+  background-color: #f6f3ec !important;
+  color: #1a1917 !important;
+}
+
+.floating-whatsapp-chatbox [class*='messageBody'],
+.floating-whatsapp-chatbox [class*='accountName'],
+.floating-whatsapp-chatbox [class*='messageTime'] {
+  color: #1a1917 !important;
+}
+
+.floating-whatsapp-chatbox [class*='accountName'],
+.floating-whatsapp-chatbox [class*='messageTime'] {
+  color: #3f3c37 !important;
+}
+
+.floating-whatsapp-chatbox [class*='triangle'] {
+  border-color: transparent #f6f3ec transparent transparent !important;
+}
+
+.floating-whatsapp-chatbox [class*='chatBubble'] {
+  background-color: #f6f3ec !important;
+}
+
+.floating-whatsapp-chatbox footer {
+  background-color: #f6f3ec !important;
+  border-top: 1px solid rgba(26, 25, 23, 0.16) !important;
+}
+
+.floating-whatsapp-chatbox input {
+  background-color: #e6e0d1 !important;
+  color: #1a1917 !important;
+}
+
+.floating-whatsapp-chatbox input::placeholder {
+  color: #3f3c37 !important;
+}
+
+.floating-whatsapp-chatbox [class*='buttonSend'] svg {
+  fill: #0b777a !important;
+}

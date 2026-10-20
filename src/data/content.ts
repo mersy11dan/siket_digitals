@@ -12,6 +12,10 @@ export const studio = {
   ],
   linkedin: 'https://www.linkedin.com/company/siket-digital/',
   city: 'Addis Ababa',
+  whatsapp: {
+    number: '251978695556',
+    defaultMessage: 'Hello Siket Digitals! I found your website and would like to discuss a project.',
+  }
 }
 
 export const offers = [
