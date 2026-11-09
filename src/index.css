@@ -861,8 +861,149 @@ figcaption {
   color: var(--ink-soft);
 }
 
+.portfolio-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  scroll-margin-top: 9.5rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.pager-bottom {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.pager-bottom .pager-count {
+  margin-left: auto;
+}
+
+.pager-bottom .pager-dots {
+  margin-right: auto;
+}
+
+.pager-arrow {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    opacity 200ms ease,
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pager-arrow:active {
+  transform: scale(0.94);
+}
+
+.pager-arrow[aria-disabled='true'] {
+  opacity: 0.3;
+  cursor: default;
+  transform: none;
+}
+
+.pager-count {
+  min-width: 6.5ch;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.pager-count span {
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.pager-dots {
+  display: flex;
+  align-items: center;
+}
+
+.pager-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pager-dot::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--rule);
+  transition:
+    width 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 320ms ease;
+}
+
+.pager-dot[aria-current='true']::before {
+  width: 1.35rem;
+  background: var(--ink);
+}
+
+.pager-top .pager-dots {
+  display: none;
+}
+
 .stories {
   margin-top: 2.75rem;
+  perspective: 2200px;
+}
+
+.stories[data-direction='next'] {
+  --flip: 1;
+}
+
+.stories[data-direction='prev'] {
+  --flip: -1;
+}
+
+.stories[data-phase='out'] .story {
+  animation: story-flip-out 300ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation-delay: calc(var(--i) * 40ms);
+}
+
+.stories[data-phase='in'] .story {
+  animation: story-flip-in 620ms cubic-bezier(0.2, 0.8, 0.25, 1) backwards;
+  animation-delay: calc(var(--i) * 100ms);
+}
+
+@keyframes story-flip-out {
+  to {
+    opacity: 0;
+    transform: translateX(calc(var(--flip) * -2.5%)) rotateY(calc(var(--flip) * 7deg));
+  }
+}
+
+@keyframes story-flip-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--flip) * 2.5%)) rotateY(calc(var(--flip) * -7deg));
+  }
 }
 
 .story {
@@ -1433,6 +1574,19 @@ figcaption {
 
   .browser-toggle:hover {
     color: var(--logo-green);
+  }
+
+  .pager-arrow:not([aria-disabled='true']):hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .pager-dot:hover::before {
+    background: color-mix(in srgb, var(--ink) 55%, var(--rule));
+  }
+
+  .pager-dot[aria-current='true']:hover::before {
+    background: var(--ink);
   }
 
   .shot:hover .shot-img {

@@ -1,9 +1,17 @@
-import { ArrowUpRight, Moon, Pause, Play, Sun } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Moon, Pause, Play, Sun } from '@phosphor-icons/react'
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { projects, type Project, type Themed } from '../data/content'
 import { applyTheme, useTheme, type ThemeName } from '../theme'
 
 type Reveal = 'static' | 'waiting' | 'shown'
+type Phase = 'idle' | 'out' | 'in'
+type Direction = 'next' | 'prev'
+
+const PER_PAGE = 2
+const PAGES = Math.ceil(projects.length / PER_PAGE)
+const OUT_MS = 340
+const IN_MS = 720
+const SCROLL_WAIT_MS = 900
 
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -17,29 +25,194 @@ function delay(step: number) {
   return { '--d': step } as CSSProperties
 }
 
+function pad(value: number) {
+  return String(value).padStart(2, '0')
+}
+
+function rangeOf(page: number) {
+  const first = page * PER_PAGE + 1
+  const last = Math.min(projects.length, first + PER_PAGE - 1)
+  return { first, last }
+}
+
 export function Portfolio() {
+  const head = useRef<HTMLDivElement>(null)
+  const timers = useRef<number[]>([])
+  const cancelScrollWait = useRef<(() => void) | null>(null)
+  const [page, setPage] = useState(0)
+  const [phase, setPhase] = useState<Phase>('idle')
+  const [direction, setDirection] = useState<Direction>('next')
+  const [paged, setPaged] = useState(false)
+  const busy = useRef(false)
+
+  useEffect(
+    () => () => {
+      timers.current.forEach(window.clearTimeout)
+      cancelScrollWait.current?.()
+    },
+    [],
+  )
+
+  function later(ms: number, run: () => void) {
+    timers.current.push(window.setTimeout(run, ms))
+  }
+
+  function flip(target: number, way: Direction) {
+    setPaged(true)
+    if (prefersReducedMotion()) {
+      setPage(target)
+      busy.current = false
+      return
+    }
+    setDirection(way)
+    setPhase('out')
+    later(OUT_MS, () => {
+      setPage(target)
+      setPhase('in')
+      later(IN_MS, () => {
+        setPhase('idle')
+        busy.current = false
+      })
+    })
+  }
+
+  function go(target: number, fromBottom: boolean) {
+    if (busy.current || target === page || target < 0 || target >= PAGES) return
+    busy.current = true
+    const way: Direction = target > page ? 'next' : 'prev'
+    const node = head.current
+    if (!fromBottom || !node || node.getBoundingClientRect().top >= 0) {
+      flip(target, way)
+      return
+    }
+
+    const reduced = prefersReducedMotion()
+    node.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+    if (reduced) {
+      flip(target, way)
+      return
+    }
+    let done = false
+    const finish = () => {
+      if (done) return
+      done = true
+      window.removeEventListener('scrollend', finish)
+      cancelScrollWait.current = null
+      flip(target, way)
+    }
+    window.addEventListener('scrollend', finish)
+    later(SCROLL_WAIT_MS, finish)
+    cancelScrollWait.current = () => window.removeEventListener('scrollend', finish)
+  }
+
+  const { first, last } = rangeOf(page)
+  const shown = projects.slice(first - 1, last)
+  const pager = (place: 'top' | 'bottom') => (
+    <Pager page={page} onGo={(target) => go(target, place === 'bottom')} place={place} />
+  )
+
   return (
     <div className="portfolio">
       <div className="dateline portfolio-dateline" aria-hidden="true">
         <span>Selected work</span>
         <span>Designed and built by Siket Digitals</span>
-        <span>{String(projects.length).padStart(2, '0')} projects</span>
+        <span>{pad(projects.length)} projects</span>
       </div>
-      <h3 className="portfolio-title">Recent work</h3>
-      <p className="portfolio-lede">
-        Two sites we designed and built from the first sketch to launch. Each preview is a recording of the live
-        site.
+      <div className="portfolio-head" ref={head}>
+        <div>
+          <h3 className="portfolio-title">Recent work</h3>
+          <p className="portfolio-lede">
+            Sites we designed and built from the first sketch to launch, two at a time. Each preview is a
+            recording of the live site.
+          </p>
+        </div>
+        {PAGES > 1 ? pager('top') : null}
+      </div>
+      <p className="vh" aria-live="polite">
+        {paged
+          ? first === last
+            ? `Showing project ${first} of ${projects.length}`
+            : `Showing projects ${first} to ${last} of ${projects.length}`
+          : ''}
       </p>
-      <div className="stories">
-        {projects.map((project, index) => (
-          <Story key={project.name} project={project} index={index} />
+      <div className="stories" data-phase={phase} data-direction={direction}>
+        {shown.map((project, position) => (
+          <Story
+            key={project.name}
+            project={project}
+            index={first - 1 + position}
+            position={position}
+            entrance={paged ? 'flip' : 'scroll'}
+          />
         ))}
       </div>
+      {PAGES > 1 ? pager('bottom') : null}
     </div>
   )
 }
 
-function Story({ project, index }: { project: Project; index: number }) {
+function Pager({ page, onGo, place }: { page: number; onGo: (target: number) => void; place: 'top' | 'bottom' }) {
+  const { first, last } = rangeOf(page)
+  const atStart = page === 0
+  const atEnd = page === PAGES - 1
+
+  return (
+    <nav className={`pager pager-${place}`} aria-label={place === 'top' ? 'Recent work pages' : 'More recent work'}>
+      <button
+        type="button"
+        className="pager-arrow"
+        aria-label="Previous projects"
+        aria-disabled={atStart}
+        onClick={() => onGo(page - 1)}
+      >
+        <ArrowLeft size={18} weight="bold" />
+      </button>
+      <span className="pager-count" aria-hidden="true">
+        {first === last ? pad(first) : `${pad(first)}–${pad(last)}`} <span>of {pad(projects.length)}</span>
+      </span>
+      <span className="pager-dots">
+        {Array.from({ length: PAGES }, (_, target) => {
+          const range = rangeOf(target)
+          return (
+            <button
+              key={target}
+              type="button"
+              className="pager-dot"
+              aria-label={
+                range.first === range.last
+                  ? `Show project ${range.first}`
+                  : `Show projects ${range.first} to ${range.last}`
+              }
+              aria-current={target === page ? 'true' : undefined}
+              onClick={() => onGo(target)}
+            />
+          )
+        })}
+      </span>
+      <button
+        type="button"
+        className="pager-arrow"
+        aria-label="Next projects"
+        aria-disabled={atEnd}
+        onClick={() => onGo(page + 1)}
+      >
+        <ArrowRight size={18} weight="bold" />
+      </button>
+    </nav>
+  )
+}
+
+function Story({
+  project,
+  index,
+  position,
+  entrance,
+}: {
+  project: Project
+  index: number
+  position: number
+  entrance: 'scroll' | 'flip'
+}) {
   const ref = useRef<HTMLElement>(null)
   const [reveal, setReveal] = useState<Reveal>('static')
   const [inView, setInView] = useState(false)
@@ -49,8 +222,10 @@ function Story({ project, index }: { project: Project; index: number }) {
   const live = inView && !paused
 
   useLayoutEffect(() => {
-    if (!prefersReducedMotion() && 'IntersectionObserver' in window) setReveal('waiting')
-  }, [])
+    if (entrance === 'scroll' && !prefersReducedMotion() && 'IntersectionObserver' in window) {
+      setReveal('waiting')
+    }
+  }, [entrance])
 
   useEffect(() => {
     const node = ref.current
@@ -76,11 +251,15 @@ function Story({ project, index }: { project: Project; index: number }) {
     }
   }, [])
 
-  const glow = { '--glow-light': project.glow.light, '--glow-dark': project.glow.dark } as CSSProperties
+  const style = {
+    '--glow-light': project.glow.light,
+    '--glow-dark': project.glow.dark,
+    '--i': position,
+  } as CSSProperties
   const toggleLabel = `${paused ? 'Play' : 'Pause'} the ${project.name} preview`
 
   return (
-    <article ref={ref} className="story" data-reveal={reveal} data-live={live} style={glow}>
+    <article ref={ref} className="story" data-reveal={reveal} data-live={live} style={style}>
       <div className="story-media">
         <div className="browser">
           <div className="browser-bar">
@@ -122,7 +301,7 @@ function Story({ project, index }: { project: Project; index: number }) {
 
       <div className="story-copy">
         <p className="story-kicker" style={delay(0)}>
-          <span>No. {String(index + 1).padStart(2, '0')}</span>
+          <span>No. {pad(index + 1)}</span>
           {project.kind}
         </p>
         <h4 className="story-title" style={delay(1)}>
