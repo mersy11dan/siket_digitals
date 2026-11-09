@@ -601,6 +601,10 @@ h2 {
   padding-top: 2.75rem;
 }
 
+#work {
+  overflow-x: clip;
+}
+
 .section > .wrap::before {
   content: '';
   display: block;
