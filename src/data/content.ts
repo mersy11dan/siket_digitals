@@ -19,6 +19,24 @@ import clintonPosterDark from '../../resource/work/clinton/poster-dark.webp'
 import clintonPosterLight from '../../resource/work/clinton/poster-light.webp'
 import clintonTourDark from '../../resource/work/clinton/tour-dark.mp4'
 import clintonTourLight from '../../resource/work/clinton/tour-light.mp4'
+import edgetMobile from '../../resource/work/edget/mobile.webp'
+import edgetPoster from '../../resource/work/edget/poster.webp'
+import edgetQuote from '../../resource/work/edget/quote.webp'
+import edgetServices from '../../resource/work/edget/services.webp'
+import edgetTour from '../../resource/work/edget/tour.mp4'
+import edgetWhy from '../../resource/work/edget/why.webp'
+import metbelMobile from '../../resource/work/metbel/mobile.webp'
+import metbelPoster from '../../resource/work/metbel/poster.webp'
+import metbelProducts from '../../resource/work/metbel/products.webp'
+import metbelPulses from '../../resource/work/metbel/pulses.webp'
+import metbelTour from '../../resource/work/metbel/tour.mp4'
+import metbelValues from '../../resource/work/metbel/values.webp'
+import youthInsight from '../../resource/work/youth-print/insight.webp'
+import youthMobile from '../../resource/work/youth-print/mobile.webp'
+import youthPoster from '../../resource/work/youth-print/poster.webp'
+import youthProjects from '../../resource/work/youth-print/projects.webp'
+import youthTour from '../../resource/work/youth-print/tour.mp4'
+import youthWork from '../../resource/work/youth-print/work.webp'
 
 export const studio = {
   name: 'Siket Digitals',
@@ -169,6 +187,78 @@ export const projects: readonly Project[] = [
         caption: 'Three steps from sign-up to a casting review.',
         image: { light: clintonApplyLight, dark: clintonApplyDark },
       },
+    ],
+  },
+  {
+    name: 'Metbel Trading',
+    kind: 'Trading company website',
+    url: 'https://metbeltrading.com/',
+    body: 'A bright, product-led site for an Addis Ababa import and export company that trades Ethiopian beans, pulses and oilseeds. Buyers browse the range in a carousel and photo grid, open what Metbel exports, imports and where it trades, and can start a WhatsApp chat from a floating button.',
+    features: ['Product carousel and grid', 'Exports, imports and trade countries', 'International customers', 'WhatsApp chat'],
+    palette: [
+      { name: 'Harvest', hex: '#ffc65e' },
+      { name: 'Amber', hex: '#ffa500' },
+      { name: 'Navy', hex: '#011627' },
+      { name: 'Red', hex: '#d94948' },
+    ],
+    type: 'Montserrat',
+    modes: 'Light, on harvest orange.',
+    glow: { light: '#c98200', dark: '#ffc65e' },
+    tour: { light: metbelTour },
+    poster: { light: metbelPoster },
+    mobile: { light: metbelMobile },
+    shots: [
+      { title: 'Products.', caption: 'Beans in a carousel, then sesame and flax.', image: { light: metbelProducts } },
+      { title: 'Pulses.', caption: 'Kidney beans and chickpeas, with a note on Ethiopian pulses.', image: { light: metbelPulses } },
+      { title: 'Values.', caption: 'Reliability and quality, in Metbel\'s own words.', image: { light: metbelValues } },
+    ],
+  },
+  {
+    name: 'EDGET Medical and Industrial Gas',
+    kind: 'Supplier website',
+    url: 'https://www.edgetgas.com/',
+    body: 'A bold, high-contrast site for an Ethiopian importer, exporter and supplier of medical and industrial oxygen. It opens on its numbers, lays out each gas service and the extra supplies on offer, gives four reasons to choose EDGET, and ends with a quote request and the main office details.',
+    features: ['Oxygen gas services', 'Additional supplies', 'Four reasons to choose us', 'Quote and contact'],
+    palette: [
+      { name: 'Coal', hex: '#171717' },
+      { name: 'Mint', hex: '#90ee90' },
+      { name: 'Crimson', hex: '#b43041' },
+      { name: 'Navy', hex: '#131d3b' },
+    ],
+    type: 'Rubik and Karla',
+    modes: 'Light, with dark bands.',
+    glow: { light: '#b43041', dark: '#90ee90' },
+    tour: { light: edgetTour },
+    poster: { light: edgetPoster },
+    mobile: { light: edgetMobile },
+    shots: [
+      { title: 'Services.', caption: 'Oxygen, filled cylinders and liquid oxygen, then the extras.', image: { light: edgetServices } },
+      { title: 'Why us.', caption: 'Quality material, trained workers, availability and quick response.', image: { light: edgetWhy } },
+      { title: 'Contact.', caption: 'A call to get started, a quote request and the main office.', image: { light: edgetQuote } },
+    ],
+  },
+  {
+    name: 'The Youth Print',
+    kind: 'Think tank website',
+    url: 'https://theyouthprint.org/',
+    body: 'A clean, editorial site for a youth-led African think tank in Addis Ababa working on climate policy, diplomacy and leadership. A photo slideshow leads into its four tracks of work, a research library you can filter by type, upcoming events, and projects measured against goals published in advance.',
+    features: ['Hero slideshow', 'Four work tracks', 'Filterable research library', 'Events and projects'],
+    palette: [
+      { name: 'Green', hex: '#239e58' },
+      { name: 'Mint', hex: '#e8f6ee' },
+      { name: 'Ink', hex: '#171914' },
+      { name: 'White', hex: '#ffffff' },
+    ],
+    type: 'Raleway and Open Sans',
+    modes: 'Light, with green and ink bands.',
+    glow: { light: '#239e58', dark: '#5fd08f' },
+    tour: { light: youthTour },
+    poster: { light: youthPoster },
+    mobile: { light: youthMobile },
+    shots: [
+      { title: 'Our work.', caption: 'Research, dialogue, diplomacy and leadership as four tracks.', image: { light: youthWork } },
+      { title: 'Insight.', caption: 'Explainers, policy briefs and insights, filterable by type.', image: { light: youthInsight } },
+      { title: 'Projects.', caption: 'Climate justice and adaptation work, each with its own page.', image: { light: youthProjects } },
     ],
   },
 ]
