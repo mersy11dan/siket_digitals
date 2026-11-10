@@ -1,7 +1,7 @@
 import { List, Moon, Sun, X } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { FlatLogo } from './FlatLogo'
-import { applyTheme, readTheme, type ThemeName } from '../theme'
+import { applyTheme, useTheme } from '../theme'
 
 const links = [
   { href: '#members', label: 'Members' },
@@ -18,12 +18,8 @@ function scrollToId(event: { preventDefault: () => void }, href: string) {
 }
 
 export function Masthead() {
-  const [theme, setTheme] = useState<ThemeName>('light')
+  const theme = useTheme()
   const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    setTheme(readTheme())
-  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -35,9 +31,7 @@ export function Masthead() {
   }, [open])
 
   function toggleTheme() {
-    const next = theme === 'dark' ? 'light' : 'dark'
-    applyTheme(next)
-    setTheme(next)
+    applyTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
   const themeLabel = theme === 'dark' ? 'Switch to light paper' : 'Switch to dark paper'

@@ -1,6 +1,7 @@
 import { ArrowsClockwise } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { offers } from '../data/content'
+import { Portfolio } from './Portfolio'
 import { Reveal } from './Reveal'
 
 export function Work() {
@@ -59,6 +60,7 @@ export function Work() {
           Our goal is to turn ideas into professional digital experiences that help businesses grow,
           connect with their audiences, and stand out online.
         </p>
+        <Portfolio />
       </div>
     </section>
   )
