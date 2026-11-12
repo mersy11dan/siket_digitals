@@ -5,6 +5,7 @@ import { Masthead } from './components/Masthead'
 import { Members } from './components/Members'
 import { Process } from './components/Process'
 import { Work } from './components/Work'
+import { WhatsAppWidget } from './components/WhatsAppWidget'
 
 export default function App() {
   return (
@@ -21,6 +22,8 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <WhatsAppWidget />
+
     </>
   )
 }

@@ -47,7 +47,13 @@ export const studio = {
     { display: '0909 905 340', href: 'tel:+251909905340' },
   ],
   linkedin: 'https://www.linkedin.com/company/siket-digital/',
+  telegram: 'https://t.me/Netchuck',
   city: 'Addis Ababa',
+  whatsapp: {
+    // International format: Country code + number (no +, no spaces, no dashes)
+    number: '251937591141',
+    defaultMessage: 'Hello Siket Digitals! I found your website and would like to discuss a project.',
+  }
 }
 
 export const offers = [

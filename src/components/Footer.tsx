@@ -36,11 +36,10 @@ export function Footer() {
             </span>
           </li>
           <li>
-            <span className="social">
+            <a href={studio.telegram} target="_blank" rel="noreferrer">
               <TelegramLogo size={18} />
               <span className="social-label">Telegram</span>
-              <span className="vh">, coming soon</span>
-            </span>
+            </a>
           </li>
         </ul>
       </div>
